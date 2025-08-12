@@ -1,0 +1,185 @@
+:root {
+    --cor-de-fundo: #4e0c68;
+    --cor-de-fundo-secundaria: rgba(152, 72, 184, 0.8);
+    --cor-botao: #8a1bb6;
+    --cinza-secundario: #c0c0c0;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background-color: var(--cor-de-fundo);
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    color: white;
+}
+
+/* ---------- HEADER ---------- */
+.meus-contatos {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 28px;
+    margin: 10px 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container__links {
+    list-style: none;
+    margin: 10px 0;
+    padding: 0;
+    gap: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.container__botao {
+    font-size: 26px;
+    font-weight: 700;
+    background-color: var(--cor-botao);
+    color: white;
+    padding: 0.5em 1em;
+    border: 1px solid #ffffff;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.container__botao:hover {
+    background-color: #b05af0;
+    border: 1px solid;
+    box-shadow: inset 0 0 20px rgba(250, 32, 214, 0.5),
+        0 0 20px rgba(255, 255, 255, 0.2);
+    outline: none;
+    text-shadow: 1px 1px 2px #427388;
+}
+
+/* ---------- CONTAINER PRINCIPAL - ITENS ---------- */
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 0 15px;
+}
+
+.item {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.texto {
+    flex: 1;
+    background-color: var(--cor-de-fundo-secundaria);
+    padding: 15px 20px;
+    box-sizing: border-box;
+    font-size: 18px;
+    line-height: 1.5;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.texto:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(250, 32, 214, 0.6);
+    z-index: 10;
+}
+
+.foto {
+    flex: 1;
+    height: 350px;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid var(--cinza-secundario);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 16px;
+    filter: grayscale(100%);
+    transition: filter 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.foto:hover {
+    filter: grayscale(0%);
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(250, 32, 214, 0.6);
+    z-index: 10;
+}
+
+.foto1 {
+    background-image: url(/img/me1.jpg);
+}
+
+.foto2 {
+    background-image: url(/img/me3.jpg);
+}
+
+.foto3 {
+    background-image: url(img/me2.jpg);
+}
+
+.foto4 {
+    background-image: url(img/me4.jpg);
+}
+
+.foto5 {
+    background-image: url(img/me5.jpg);
+}
+
+/* Para inverter a ordem do texto e foto - efeito zig zag */
+.invertido {
+    flex-direction: row-reverse;
+}
+
+/* Remove margens desnecessárias dos títulos dentro dos textos */
+.texto h2,
+.texto h3 {
+    margin-top: 0;
+}
+
+.titulo-info {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Detalhes do texto */
+.details {
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+/* ---------- RESPONSIVO ---------- */
+@media (max-width: 768px) {
+    .item,
+    .invertido {
+        flex-direction: column !important;
+        gap: 20px;
+    }
+    .foto {
+        width: 90%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+    .texto {
+        text-align: center;
+    }
+}
+
+/* Só ativa hover em dispositivos com suporte a hover (desktop) */
+@media (hover: hover) and (pointer: fine) {
+    .texto:hover {
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 12px 24px rgba(250, 32, 214, 0.6);
+        z-index: 10;
+    }
+    .foto:hover {
+        filter: grayscale(0%);
+        transform: translateY(-8px) scale(1.03);
+        box-shadow: 0 12px 24px rgba(250, 32, 214, 0.6);
+        z-index: 10;
+    }
+}
