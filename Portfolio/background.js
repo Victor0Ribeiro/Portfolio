@@ -3,38 +3,10 @@
   if (!canvas) return;
   const ctx = canvas.getContext('2d', { alpha: true });
 
-  // device pixel ratio for crisp rendering
   let dpr = Math.max(1, window.devicePixelRatio || 1);
-
   let width = 0;
   let height = 0;
 
-  // pega a cor do CSS para as linhas (espera "R,G,B")
-  function getLineRGB() {
-    const s = getComputedStyle(document.documentElement).getPropertyValue('--destaque') || '#fa20d6';
-    // converte HEX para R,G,B
-    function hexToRgb(hex) {
-      hex = hex.replace('#','');
-      if(hex.length === 3) hex = hex.split('').map(c => c + c).join('');
-      const bigint = parseInt(hex, 16);
-      const r = (bigint >> 16) & 255;
-      const g = (bigint >> 8) & 255;
-      const b = bigint & 255;
-      return `${r},${g},${b}`;
-    }
-    // tenta extrair do var --destaque que é HEX
-    return hexToRgb(s.trim());
-  }
-
-  // configuração
-  const BASE_COUNT_DESKTOP = 110;
-  const BASE_COUNT_MOBILE = 28;
-
-  let mouse = { x: null, y: null };
-  let lastScrollY = window.scrollY || 0;
-  let smoothScrollDelta = 0;
-
-  // resize canvas considerando DPR
   function resize() {
     dpr = Math.max(1, window.devicePixelRatio || 1);
     width = Math.max(300, window.innerWidth);
@@ -59,16 +31,15 @@
       this.speedY = 0.25 + Math.random() * 0.6;
       this.angle = Math.random() * Math.PI * 2;
       this.angularSpeed = (Math.random() - 0.5) * 0.004;
-      this.alphaBase = 0.08 + Math.random() * 0.18;
+      this.alphaBase = 0.2 + Math.random() * 0.25; 
       this.brightnessPhase = Math.random() * Math.PI * 2;
     }
 
     update(scrollDelta) {
       this.x += this.speedX;
       this.y += this.speedY + scrollDelta * 0.45;
-
       this.angle += this.angularSpeed;
-      this.brightnessPhase += 0.02;
+      this.brightnessPhase += 0.03;
 
       if (this.x < -this.length) this.x = width + this.length;
       if (this.x > width + this.length) this.x = -this.length;
@@ -77,24 +48,31 @@
       if (this.y < -this.length) this.reset(false);
     }
 
-    draw(ctx, rgb) {
+    draw(ctx) {
       const x2 = this.x + Math.cos(this.angle) * this.length;
       const y2 = this.y + Math.sin(this.angle) * this.length;
 
-      const pulse = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(this.brightnessPhase));
-      const alpha = Math.min(1, this.alphaBase * pulse + 0.02);
+      const pulse = 0.45 + 0.55 * (0.5 + 0.5 * Math.sin(this.brightnessPhase));
+      const alpha = Math.min(1, this.alphaBase * pulse + 0.05);
+
+      const r = 186, g = 55, b = 233; // Roxo
 
       ctx.save();
-      ctx.lineWidth = 1.4;
-      ctx.strokeStyle = `rgba(255,255,255,${Math.max(0.06, alpha * 0.5)})`;
-      ctx.shadowColor = `rgba(${rgb},${Math.min(0.85, alpha)})`;
-      ctx.shadowBlur = 8 + 12 * (pulse - 0.5);
+
+      // Glow forte
+      ctx.shadowColor = `rgba(${r},${g},${b},${alpha})`;
+      ctx.shadowBlur = 20;
+
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = `rgba(${r},${g},${b},${alpha})`;
       ctx.beginPath();
       ctx.moveTo(this.x, this.y);
       ctx.lineTo(x2, y2);
       ctx.stroke();
+
       ctx.restore();
 
+      // conexões com mouse, também com glow
       if (mouse.x !== null && mouse.y !== null) {
         const dx = this.x - mouse.x;
         const dy = this.y - mouse.y;
@@ -102,14 +80,17 @@
         if (dist < 130) {
           const t = (130 - dist) / 130;
           ctx.save();
-          ctx.lineWidth = 0.7;
-          ctx.strokeStyle = `rgba(${rgb},${0.5 * t})`;
-          ctx.shadowColor = `rgba(${rgb},${0.9 * t})`;
-          ctx.shadowBlur = 10 + 18 * t;
+
+          ctx.shadowColor = `rgba(${r},${g},${b},${t * 0.8})`;
+          ctx.shadowBlur = 20 * t;
+
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = `rgba(${r},${g},${b},${t * 0.8})`;
           ctx.beginPath();
           ctx.moveTo(this.x, this.y);
           ctx.lineTo(mouse.x, mouse.y);
           ctx.stroke();
+
           ctx.restore();
         }
       }
@@ -117,8 +98,12 @@
   }
 
   let lines = [];
+  let mouse = { x: null, y: null };
+  let lastScrollY = window.scrollY || 0;
+  let smoothScrollDelta = 0;
+
   function createLines() {
-    const count = window.innerWidth < 768 ? BASE_COUNT_MOBILE : BASE_COUNT_DESKTOP;
+    const count = window.innerWidth < 768 ? 28 : 110;
     lines = [];
     for (let i = 0; i < count; i++) lines.push(new Line());
   }
@@ -128,22 +113,24 @@
     createLines();
   });
 
-  window.addEventListener('mousemove', (e) => {
+  window.addEventListener('mousemove', e => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
   });
   window.addEventListener('mouseout', () => {
-    mouse.x = mouse.y = null;
+    mouse.x = null;
+    mouse.y = null;
   });
 
-  window.addEventListener('touchmove', (e) => {
+  window.addEventListener('touchmove', e => {
     if (!e.touches || e.touches.length === 0) return;
     const t = e.touches[0];
     mouse.x = t.clientX;
     mouse.y = t.clientY;
   }, { passive: true });
   window.addEventListener('touchend', () => {
-    mouse.x = mouse.y = null;
+    mouse.x = null;
+    mouse.y = null;
   });
 
   window.addEventListener('scroll', () => {
@@ -158,10 +145,9 @@
   function animate() {
     ctx.clearRect(0, 0, width, height);
     smoothScrollDelta *= 0.94;
-    const rgb = getLineRGB();
     for (const ln of lines) {
       ln.update(smoothScrollDelta);
-      ln.draw(ctx, rgb);
+      ln.draw(ctx);
     }
     requestAnimationFrame(animate);
   }
