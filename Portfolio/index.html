@@ -1,101 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet" />
-    <title>Portfólio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet" />
+  <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+  <title>Portfólio</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <br />
-            <div class="meus-contatos">MEUS LINKS:</div>
-            <br />
-            <ul class="container__links">
-                <li><a href="https://github.com/Victor0Ribeiro" class="container__botao" target="_blank">GitHub</a></li>
-                <li><a href="https://www.linkedin.com/in/ribeiro0victor/" class="container__botao" target="_blank">LinkedIn</a></li>
-                <li><a href="https://wa.link/gg0uau" class="container__botao" target="_blank">WhatsApp</a></li>
-                <li><a href="https://mail.google.com/mail/u/0/#inbox?compose=CllgCHrjmdJcCfBndwbSnZPgvBWHjJrWfbkLkjhbczRjZLXTTZnBTqVHtbhQFvPVzpztXPQZLdV" class="container__botao" target="_blank">Gmail</a></li>
-            </ul>
-        </nav>
-    </header>
+  <!-- aquele 'canva' sofrido de fundo-->
+  <canvas id="background" aria-hidden="true"></canvas>
 
-    <main>
-      <section class="container">
-          <div class="item">
-              <div class="texto">
-                  <h2 class="titulo-info">Quem é Victor?</h2>
-                  <h3>Dados Pessoais:</h3>
-                  <div class="details">
-                      <p>Idade: 22 anos.</p>
-                      <p>Curso: Análise e Desenvolvimento de Sistemas.</p>
-                      <p>Universidade: FSG - Faculdade da Serra Gaúcha.</p>
-                      <p>Semestre: Quarto semestre.</p>
-                  </div>
-              </div>
-              <div class="foto foto1"></div>
+  <header>
+    <nav>
+      <div class="meus-contatos">SITE APENAS WEB/PC</div>
+      <div class="meus-contatos">MEUS LINKS:</div>
+
+      <ul class="container__links">
+        <li><a href="https://github.com/Victor0Ribeiro" class="container__botao" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/ribeiro0victor/" class="container__botao" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://wa.link/gg0uau" class="container__botao" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="mailto:victorhugo191002@gmail.com" class="container__botao" target="_blank" rel="noopener">Gmail</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="container">
+
+      <div class="item">
+        <div class="texto">
+          <h2 class="titulo-info">Quem é Victor?</h2>
+          <h3>Dados Pessoais:</h3>
+          <div class="details">
+            <p>Idade: 22 anos.</p>
+            <p>Curso: Análise e Desenvolvimento de Sistemas.</p>
+            <p>Universidade: FSG - Faculdade da Serra Gaúcha.</p>
+            <p>Semestre: Quarto semestre.</p>
           </div>
-
-          <div class="item invertido">
-              <div class="texto">
-                <h2 class="titulo-info">Cursos e habilidades:</h2>
-                <h2>Linguagens:</h2>
-                <p>JavaScript, C e C++.</p>
-                <h2>Stack front-end:</h2>
-                <p>React (básico), HTML5 e CSS3.</p>
-                <h2>Integração:</h2>
-                <p>Axios, Express e Node.js (somente o básico).</p>
-                
-              </div>
-              <div class="foto foto2"></div>
-          </div>
-          
-          <div class="item">
-              <div class="texto">
-                <h2>Prototípagem/UX e UI:</h2>
-                      <p>Figma.</p>
-                      <h2>Banco de dados:</h2>
-                      <p>Microsoft SQL Server.</p>
-                      <h2>Idiomas:</h2>
-                      <p>Inglês: básico.</p>
-                      <h2>Outros:</h2>
-                      <p>After Effects, Blender e Element 3D.</p>
-
-
-            </div>
-            <div class="foto foto3"></div>
         </div>
+        <div class="foto foto1" role="img" aria-label="Foto Victor 1"></div>
+      </div>
 
-        <div class="item invertido">
-            <div class="texto">
+      <div class="item invertido">
+        <div class="texto">
+          <h2 class="titulo-info">Cursos e habilidades:</h2>
+          <h3>Linguagens:</h3>
+          <p>JavaScript, C e C++.</p>
+          <h3>Stack front-end:</h3>
+          <p>React (básico), HTML5 e CSS3.</p>
+          <h3>Integração:</h3>
+          <p>Axios, Express e Node.js (básico).</p>
+        </div>
+        <div class="foto foto2" role="img" aria-label="Foto Victor 2"></div>
+      </div>
 
-                <h2 class="titulo-info">Dados Profissionais:</h2>
-                <p>Empregado no momento.</p>
-                <p>Empresa: OMT Veyhl.</p>
-                <p>Início: 18/03/2024.</p>
-                <p>Ramo: Metalurgica.</p>
-                <p>Cargo atual: Operador Logístico.</p>
-                <p>Setor: PPCP/Logística.</p>
-            </div>
-            <div class="foto foto4"></div>
+      <div class="item">
+        <div class="texto">
+          <h3>Prototipagem / UX & UI:</h3>
+          <p>Figma.</p>
+          <h3>Banco de dados:</h3>
+          <p>Microsoft SQL Server.</p>
+          <h3>Idiomas:</h3>
+          <p>Inglês: básico.</p>
+          <h3>Outros:</h3>
+          <p>After Effects, Blender e Element 3D.</p>
         </div>
-        <div class="item">
-            <div class="texto">
-                <h2 class="titulo-info">Trajetória na empresa:</h2>
-                <h2>Auxíliar:</h2>
-                <p>De 18/03/2024 até 01/07/2024.</p>
-                <h2>Pintor:</h2>
-                <p>De 01/07/2024 até 01/07/2025.</p>
-                <h2>Operador Logístico:</h2>
-                <p>01/07/2024 até o momento.</p>
-            </div>
-            <div class="foto foto5"></div>
+        <div class="foto foto3" role="img" aria-label="Foto Victor 3"></div>
+      </div>
+
+      <div class="item invertido">
+        <div class="texto">
+          <h2 class="titulo-info">Dados Profissionais:</h2>
+          <p>Empregado no momento.</p>
+          <p>Empresa: OMT Veyhl.</p>
+          <p>Início: 18/03/2024.</p>
+          <p>Ramo: Metalúrgica.</p>
+          <p>Cargo atual: Operador Logístico.</p>
+          <p>Setor: PPCP/Logística.</p>
         </div>
-      </section>
-    </main>
+        <div class="foto foto4" role="img" aria-label="Foto Victor 4"></div>
+      </div>
+
+      <div class="item">
+        <div class="texto">
+          <h2 class="titulo-info">Trajetória na empresa:</h2>
+          <h3>Auxiliar:</h3>
+          <p>De 18/03/2024 até 01/07/2024.</p>
+          <h3>Pintor:</h3>
+          <p>De 01/07/2024 até 01/07/2025.</p>
+          <h3>Operador Logístico:</h3>
+          <p>01/07/2024 até o momento.</p>
+        </div>
+        <div class="foto foto5" role="img" aria-label="Foto Victor 5"></div>
+      </div>
+
+      <div class="item invertido">
+        <div class="texto">
+          <h2 class="titulo-info">Por que a programação?</h2>
+          <p>Desde criança, sempre tive curiosidade de saber como as coisas funcionam. Quando tive acesso à internet, despertei ainda mais interesse sobre como funcionam os softwares e páginas na web. Juntei a paixão por jogos com essa curiosidade, e comecei a programar em 2022. E cá estou, buscando aprender e evoluir cada vez mais.</p>
+        </div>
+        <div class="foto foto6" role="img" aria-label="Foto Victor 6"></div>
+      </div>
+
+      <div class="item">
+        <div class="texto">
+          <h2 class="titulo-info">Objetivos:</h2>
+          <p>Objetivo profissional: Ingressar na área e crescer como programador Full-Stack.</p>
+          <p>Habilidades que desejo desenvolver: React, Node.js e TypeScript.</p>
+          <p>Meta a médio prazo: desenvolver projetos reais para ganhar experiência.</p>
+        </div>
+        <div class="foto foto7" role="img" aria-label="Foto Victor 7"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="background.js" defer></script>
 </body>
 </html>
