@@ -171,6 +171,7 @@ header nav {
 .foto10 {background-image: url(/img/gerenciamento.png);}
 
 .atencao {
+  margin-top: 30px;
   color: red;
   border: 3px solid #fff;
   background-color: rgb(143, 0, 148);
