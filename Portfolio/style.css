@@ -167,6 +167,15 @@ header nav {
 .foto6 { background-image: url(/img/dev-1.jpg); }
 .foto7 { background-image: url(/img/Stonks.jpg); }
 .foto8 {background-image: url(/img/imagem-previsao.png);}
+.foto9 {background-image: url(/img/aplicação.png);}
+.foto10 {background-image: url(/img/gerenciamento.png);}
+
+.atencao {
+  color: red;
+  border: 3px solid #fff;
+  background-color: rgb(143, 0, 148);
+  letter-spacing: 20px;
+}
 
 /* Remove margens extras nos títulos */
 .texto h2, .texto h3 {
