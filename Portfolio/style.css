@@ -159,16 +159,45 @@ header nav {
 }
 
 /* Fotos específicas */
-.foto1 { background-image: url(/img/me1.jpg); }
-.foto2 { background-image: url(/img/me3.jpg); }
-.foto3 { background-image: url(/img/me2.jpg); }
-.foto4 { background-image: url(/img/me4.jpg); }
-.foto5 { background-image: url(/img/me5.jpg); }
-.foto6 { background-image: url(/img/dev-1.jpg); }
-.foto7 { background-image: url(/img/Stonks.jpg); }
-.foto8 {background-image: url(/img/imagem-previsao.png);}
-.foto9 {background-image: url(/img/aplicação.png);}
-.foto10 {background-image: url(/img/gerenciamento.png);}
+.foto1 {
+  background-image: url(/img/me1.jpg);
+}
+
+.foto2 {
+  background-image: url(/img/me3.jpg);
+}
+
+.foto3 {
+  background-image: url(/img/me2.jpg);
+}
+
+.foto4 {
+  background-image: url(/img/me4.jpg);
+}
+
+.foto5 {
+  background-image: url(/img/me5.jpg);
+}
+
+.foto6 {
+  background-image: url(/img/dev-1.jpg);
+}
+
+.foto7 {
+  background-image: url(/img/Stonks.jpg);
+}
+
+.foto8 {
+  background-image: url(/img/imagem-previsao.png);
+}
+
+.foto9 {
+  background-image: url(/img/aplicação.png);
+}
+
+.foto10 {
+  background-image: url(/img/gerenciamento.png);
+}
 
 .atencao {
   margin-top: 30px;
@@ -179,7 +208,8 @@ header nav {
 }
 
 /* Remove margens extras nos títulos */
-.texto h2, .texto h3 {
+.texto h2,
+.texto h3 {
   margin-top: 0;
   margin-bottom: 0.5em;
   color: #ffffff;
@@ -196,16 +226,19 @@ header nav {
 
 /* Responsividade */
 @media (max-width: 768px) {
+
   .item,
   .invertido {
     flex-direction: column !important;
     gap: 20px;
   }
+
   .foto {
     width: 90%;
     height: auto;
     aspect-ratio: 1 / 1;
   }
+
   .texto {
     text-align: center;
   }
@@ -213,12 +246,14 @@ header nav {
 
 /* Hover só em dispositivos que suportam pointer/hover */
 @media (hover: hover) and (pointer: fine) {
+
   .texto:hover,
   .texto:focus-within {
     transform: translateY(-8px) scale(1.03);
     box-shadow: 0 12px 24px rgba(250, 32, 214, 0.6);
     z-index: 10;
   }
+
   .foto:hover,
   .foto:focus {
     filter: grayscale(0%);
@@ -239,4 +274,23 @@ h1 {
 .previsao {
   font-size: 30px;
   font-weight: 700;
+}
+
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(200px);
+  animation: aparecer 0.6s ease forwards;
+}
+
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-200px);
+  animation: aparecer 1.6s ease forwards;
+}
+
+@keyframes aparecer {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
