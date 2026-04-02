@@ -276,6 +276,17 @@ h1 {
   font-weight: 700;
 }
 
+.breve-desabafo {
+ padding-left: 30px;
+ font-size: bold;
+ font-size: 22px;
+}
+
+.grito {
+  float: left;
+  font-weight: bolder;
+}
+
 .fade-in-right {
   opacity: 0;
   transform: translateX(200px);
