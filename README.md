@@ -1,70 +1,54 @@
-# Portfolio de Victor Ribeiro
+# Portfólio · Victor Ribeiro
 
-Este é o **portfólio pessoal** de Victor Ribeiro, desenvolvido para apresentar projetos, habilidades e experiências como desenvolvedor web.  
+Portfólio pessoal de Victor Ribeiro, estudante de Análise e Desenvolvimento de Sistemas (FSG) e desenvolvedor
+front-end em formação.
 
-O objetivo do projeto é fornecer uma interface limpa e moderna para mostrar trabalhos, conhecimentos e formas de contato.
+**No ar:** <https://portfolio-ten-navy-98.vercel.app>
 
----
+## Tecnologias
 
-## Tecnologias utilizadas
-
-- HTML5 e CSS3
-- JavaScript (vanilla)
-- CSS Flexbox e Grid para layout responsivo
+- HTML5 semântico
+- CSS3 (Grid, Flexbox, custom properties, `clamp()` para tipografia fluida)
+- JavaScript puro, sem frameworks nem build
+- Canvas 2D para o fundo animado
 - Hospedagem na Vercel
 
----
+## Estrutura
 
-## Estrutura do projeto
-
+```
 Portfolio/
-│
-├── index.html # Página principal do portfólio
-├── style.css # Estilos principais
-├── script.js # Funcionalidades interativas (ex: animações, scroll)
-├── assets/ # Imagens, ícones e outros recursos
-└── README.md # Este arquivo
+├── index.html      # Página única: início, sobre, projetos, trajetória e contato
+├── style.css       # Estilos e layout responsivo
+├── main.js         # Header ao rolar, animação de entrada e link ativo no menu
+├── background.js   # Fundo animado em canvas
+└── img/            # Imagens em WebP, favicon e imagem de compartilhamento (og.jpg)
+```
 
+## Rodar localmente
 
----
-
-## Como visualizar o portfólio
-
-### Opção 1 — Acesso online
-O portfólio está hospedado na Vercel e pode ser acessado aqui:  
-[https://portfolio-ten-navy-98.vercel.app](https://portfolio-ten-navy-98.vercel.app)
-
-### Opção 2 — Rodar localmente
-1. Clone o repositório:
-
+```bash
 git clone https://github.com/Victor0Ribeiro/Portfolio.git
+cd Portfolio/Portfolio
+```
 
-Acesse a pasta:
-cd Portfolio
+Abra o `index.html` no navegador. Também funciona com qualquer servidor estático, por exemplo
+`npx serve .` ou a extensão Live Server do VS Code.
 
-Abra o arquivo index.html no navegador.
+## Funcionalidades
 
-Funcionalidades
+- Layout responsivo do celular ao desktop
+- Seções com animação de entrada conforme a rolagem
+- Fundo animado que reage ao cursor e à rolagem, e pausa quando a aba não está visível
+- Respeita `prefers-reduced-motion` (animações desligadas para quem prefere menos movimento)
+- Acessibilidade: link "pular para o conteúdo", foco visível no teclado e textos alternativos nas imagens
+- Meta tags Open Graph para uma prévia bonita ao compartilhar o link
 
-Exibição de projetos desenvolvidos
+## Deploy na Vercel
 
-Seção de habilidades técnicas
+O diretório raiz do projeto na Vercel deve ser `Portfolio/`. Se a URL mudar, atualize também `og:url` e
+`og:image` no `index.html`.
 
-Contato via links de redes sociais
+## Contato
 
-Layout responsivo para desktop e mobile
-
-Próximos passos
-
-Adicionar mais projetos e experiências
-
-Melhorar interações e animações com JavaScript
-
-Integrar formulário de contato funcional
-
-Refatorar estilos para maior consistência visual
-
-Autor
-
-Victor Ribeiro
-GitHub: https://github.com/Victor0Ribeiro
+- GitHub: <https://github.com/Victor0Ribeiro>
+- LinkedIn: <https://www.linkedin.com/in/ribeiro0victor/>

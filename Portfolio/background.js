@@ -1,167 +1,167 @@
+// Fundo animado: linhas roxas que flutuam e se conectam ao cursor.
 (() => {
   const canvas = document.getElementById('background');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d', { alpha: true });
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
 
-  let dpr = Math.max(1, window.devicePixelRatio || 1);
+  const COLOR = '186, 85, 247';
+  const MOUSE_RADIUS = 140;
+  const LINES_DESKTOP = 70;
+  const LINES_MOBILE = 24;
+  const MOBILE_BREAKPOINT = 768;
+  const MAX_SCROLL_PUSH = 40;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
   let width = 0;
   let height = 0;
+  let lines = [];
+  let rafId = null;
+  let lastScrollY = window.scrollY;
+  let scrollPush = 0;
+  const mouse = { x: null, y: null };
+
+  const rand = (min, max) => min + Math.random() * (max - min);
+
+  function createLine(initial) {
+    return {
+      x: rand(0, width),
+      y: initial ? rand(0, height) : rand(-220, -20),
+      length: rand(60, 200),
+      speedX: rand(-0.17, 0.17),
+      speedY: rand(0.2, 0.7),
+      angle: rand(0, Math.PI * 2),
+      spin: rand(-0.002, 0.002),
+      alphaBase: rand(0.12, 0.32),
+      phase: rand(0, Math.PI * 2),
+    };
+  }
 
   function resize() {
-    dpr = Math.max(1, window.devicePixelRatio || 1);
-    width = Math.max(300, window.innerWidth);
-    height = Math.max(300, window.innerHeight);
-    canvas.style.width = width + 'px';
-    canvas.style.height = height + 'px';
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    width = window.innerWidth;
+    height = window.innerHeight;
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  class Line {
-    constructor() {
-      this.reset(true);
-    }
-
-    reset(initial = false) {
-      this.x = Math.random() * width;
-      this.y = initial ? Math.random() * height : (-20 - Math.random() * 200);
-      this.length = 80 + Math.random() * 160;
-      this.speedX = (Math.random() - 0.5) * 0.35;
-      this.speedY = 0.25 + Math.random() * 0.6;
-      this.angle = Math.random() * Math.PI * 2;
-      this.angularSpeed = (Math.random() - 0.5) * 0.004;
-      this.alphaBase = 0.2 + Math.random() * 0.25; 
-      this.brightnessPhase = Math.random() * Math.PI * 2;
-    }
-
-    update(scrollDelta) {
-      this.x += this.speedX;
-      this.y += this.speedY + scrollDelta * 0.45;
-      this.angle += this.angularSpeed;
-      this.brightnessPhase += 0.03;
-
-      if (this.x < -this.length) this.x = width + this.length;
-      if (this.x > width + this.length) this.x = -this.length;
-
-      if (this.y > height + this.length) this.reset(false);
-      if (this.y < -this.length) this.reset(false);
-    }
-
-    draw(ctx) {
-      const x2 = this.x + Math.cos(this.angle) * this.length;
-      const y2 = this.y + Math.sin(this.angle) * this.length;
-
-      const pulse = 0.45 + 0.55 * (0.5 + 0.5 * Math.sin(this.brightnessPhase));
-      const alpha = Math.min(1, this.alphaBase * pulse + 0.05);
-
-      const r = 186, g = 55, b = 233; // Roxo
-
-      ctx.save();
-
-      // Glow forte
-      ctx.shadowColor = `rgba(${r},${g},${b},${alpha})`;
-      ctx.shadowBlur = 20;
-
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = `rgba(${r},${g},${b},${alpha})`;
-      ctx.beginPath();
-      ctx.moveTo(this.x, this.y);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-
-      ctx.restore();
-
-      // conexões com mouse, também com glow
-      if (mouse.x !== null && mouse.y !== null) {
-        const dx = this.x - mouse.x;
-        const dy = this.y - mouse.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < 130) {
-          const t = (130 - dist) / 130;
-          ctx.save();
-
-          ctx.shadowColor = `rgba(${r},${g},${b},${t * 0.8})`;
-          ctx.shadowBlur = 20 * t;
-
-          ctx.lineWidth = 1;
-          ctx.strokeStyle = `rgba(${r},${g},${b},${t * 0.8})`;
-          ctx.beginPath();
-          ctx.moveTo(this.x, this.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.stroke();
-
-          ctx.restore();
-        }
-      }
-    }
-  }
-
-  let lines = [];
-  let mouse = { x: null, y: null };
-  let lastScrollY = window.scrollY || 0;
-  let smoothScrollDelta = 0;
-
   function createLines() {
-    const count = window.innerWidth < 768 ? 28 : 110;
-    lines = [];
-    for (let i = 0; i < count; i++) lines.push(new Line());
+    const count = width < MOBILE_BREAKPOINT ? LINES_MOBILE : LINES_DESKTOP;
+    lines = Array.from({ length: count }, () => createLine(true));
   }
 
+  function step(line) {
+    line.x += line.speedX;
+    line.y += line.speedY + scrollPush * 0.45;
+    line.angle += line.spin;
+    line.phase += 0.025;
+
+    if (line.x < -line.length) line.x = width + line.length;
+    if (line.x > width + line.length) line.x = -line.length;
+    if (line.y > height + line.length || line.y < -line.length - 240) {
+      Object.assign(line, createLine(false));
+    }
+  }
+
+  function draw(line) {
+    const pulse = 0.55 + 0.45 * Math.sin(line.phase);
+    const alpha = line.alphaBase * pulse + 0.04;
+
+    ctx.strokeStyle = `rgba(${COLOR}, ${alpha})`;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(line.x, line.y);
+    ctx.lineTo(line.x + Math.cos(line.angle) * line.length, line.y + Math.sin(line.angle) * line.length);
+    ctx.stroke();
+
+    if (mouse.x === null) return;
+    const dist = Math.hypot(line.x - mouse.x, line.y - mouse.y);
+    if (dist >= MOUSE_RADIUS) return;
+
+    const t = 1 - dist / MOUSE_RADIUS;
+    ctx.strokeStyle = `rgba(${COLOR}, ${t * 0.6})`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(line.x, line.y);
+    ctx.lineTo(mouse.x, mouse.y);
+    ctx.stroke();
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+    // "lighter" soma as cores e cria um brilho leve sem o custo do shadowBlur
+    ctx.globalCompositeOperation = 'lighter';
+    for (const line of lines) draw(line);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  function frame() {
+    scrollPush *= 0.94;
+    for (const line of lines) step(line);
+    render();
+    rafId = requestAnimationFrame(frame);
+  }
+
+  function start() {
+    if (rafId !== null || reducedMotion.matches) return;
+    rafId = requestAnimationFrame(frame);
+  }
+
+  function stop() {
+    if (rafId === null) return;
+    cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+
+  // Recria as linhas só quando a largura muda (no celular a barra de endereço muda a altura ao rolar)
+  let resizeTimer = null;
   window.addEventListener('resize', () => {
-    resize();
-    createLines();
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const widthChanged = window.innerWidth !== width;
+      resize();
+      if (widthChanged) createLines();
+      if (reducedMotion.matches) render();
+    }, 150);
   });
 
-  window.addEventListener('mousemove', e => {
+  window.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
     mouse.x = e.clientX;
     mouse.y = e.clientY;
-  });
-  window.addEventListener('mouseout', () => {
-    mouse.x = null;
-    mouse.y = null;
-  });
-
-  window.addEventListener('touchmove', e => {
-    if (!e.touches || e.touches.length === 0) return;
-    const t = e.touches[0];
-    mouse.x = t.clientX;
-    mouse.y = t.clientY;
   }, { passive: true });
-  window.addEventListener('touchend', () => {
+
+  document.documentElement.addEventListener('mouseleave', () => {
     mouse.x = null;
     mouse.y = null;
   });
 
   window.addEventListener('scroll', () => {
-    const cur = window.scrollY || window.pageYOffset || 0;
-    const delta = cur - lastScrollY;
-    lastScrollY = cur;
-    smoothScrollDelta += (delta - smoothScrollDelta) * 0.2;
-    if (smoothScrollDelta > 40) smoothScrollDelta = 40;
-    if (smoothScrollDelta < -40) smoothScrollDelta = -40;
+    const delta = window.scrollY - lastScrollY;
+    lastScrollY = window.scrollY;
+    scrollPush += (delta - scrollPush) * 0.2;
+    scrollPush = Math.max(-MAX_SCROLL_PUSH, Math.min(MAX_SCROLL_PUSH, scrollPush));
   }, { passive: true });
 
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-    smoothScrollDelta *= 0.94;
-    for (const ln of lines) {
-      ln.update(smoothScrollDelta);
-      ln.draw(ctx);
+  // Pausa quando a aba não está visível
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop();
+    else start();
+  });
+
+  reducedMotion.addEventListener?.('change', () => {
+    if (reducedMotion.matches) {
+      stop();
+      render();
+    } else {
+      start();
     }
-    requestAnimationFrame(animate);
-  }
+  });
 
-  function init() {
-    resize();
-    createLines();
-    lastScrollY = window.scrollY || 0;
-    requestAnimationFrame(animate);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  resize();
+  createLines();
+  render();
+  start();
 })();
